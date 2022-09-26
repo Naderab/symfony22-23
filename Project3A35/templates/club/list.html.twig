@@ -1,0 +1,34 @@
+<table>
+{% for c in clubs %}
+    <tr>
+    <td>{{c.ref}}</td>
+    <td>{{c.Titre | upper}}</td>
+    <td>{{c.date_fin}}</td>
+    </tr>
+{% endfor %}
+
+</table>
+
+{% set nbtotal = 0 %}
+
+{% for c in clubs %}
+    {% set nbtotal = nbtotal + c.nb_participants %}
+{% endfor %}
+
+{{nbtotal}}
+
+{{clubs | length}}
+
+<table>
+{% for c in clubs %}
+{% if 'theorique' in c.Description %}
+    <tr>
+    <td>{{c.Titre | upper}}</td>
+    </tr>
+    {% endif %}
+{% endfor %}
+
+</table>
+
+
+

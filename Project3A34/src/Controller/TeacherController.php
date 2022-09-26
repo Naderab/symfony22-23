@@ -16,7 +16,7 @@ class TeacherController extends AbstractController
         ]);
     }
 
-    #[Route('/showteacher/{name}', name: 'app_teacher')]
+    #[Route('/showteacher/{name}', name: 'app_teacher_show')]
     public function showTeacher($name): Response
     {
         //return new Response('Hello'.$name);
