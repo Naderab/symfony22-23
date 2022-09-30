@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestTwigController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    {{v}} 
+    {% set test='test 2' %}
+    {{test}}
+    {% set tab = {
+    'fname': "Jane",
+    'lname': "Doe"
+     } %}
+     {{tab['fname']}}
+     <ul>
+     {% for element in tab %}
+        <li>{{element}}</li>
+     {% endfor %}
+     </ul>
+
+     <table border="1">
+        <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        </tr>
+        {% for p in persons %}
+            <tr>
+            <td>{{p.id}}</td>
+            <td>{{p.name| upper}}</td>
+            <td>{{p.email}}</td>
+            </tr>
+        {% endfor %}
+     </table>
+
+     {% if persons is empty%}
+     Pas d'elements
+     {% else %}
+     {{persons|length}}
+     {% endif %}
+
+     {{dump(persons)}}
+
+     <a href="{{path('app_teacher_show',{'name':v,'id':'1','prenom':tab['fname']})}}">Go to teacher</a>
+
+</div>
+{% endblock %}

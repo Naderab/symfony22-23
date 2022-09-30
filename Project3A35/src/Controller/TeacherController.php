@@ -17,7 +17,7 @@ class TeacherController extends AbstractController
     }
 
 
-    #[Route('/teacher/{name}/{id}/{prenom}', name: 'app_teacher')]
+    #[Route('/teacher/{name}/{id}/{prenom}', name: 'app_teacher_show')]
     public function index2($name,$id,$prenom): Response
     {
         return $this->render('teacher/showTeacher.html.twig',[

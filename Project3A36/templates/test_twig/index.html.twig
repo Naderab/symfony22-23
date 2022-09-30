@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestTwigController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+   {{var}}
+   {% set var1='test' %}
+   {{var1}}
+   {% set tab = {
+    'fname': "Jane",
+    'lname': "Doe"
+  } %}
+  {{tab['fname']}}
+
+  {% for element in tab %}
+  {{element}}<br>
+  {% endfor %}
+
+  <table border="1">
+  <tr> <th>Id</th> <th>Name</th> <th>Email</th></tr>
+  {% for element in persons %}
+  {% if element.id == '1' %}
+  <tr>
+  <td>{{element.id}}</td>
+  <td>{{element.name| upper}}</td>
+  <td>{{element.email}}</td>
+  </tr>
+  {% endif %}
+  {% endfor %}
+  </table>
+
+{% if persons is empty %}
+Pas d'elements
+{% else %}
+{{persons|length}}
+{% endif %}
+{% apply upper %}
+Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu'il est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum.
+{% endapply %}
+
+<a href="{{path('app_teacher_show',{'name':var1})}}">Go to teacher</a>
+<img src="{{asset('images/test.jpg')}}">
+</div>
+{% endblock %}
