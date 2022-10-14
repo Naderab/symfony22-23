@@ -8,20 +8,34 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <table border="1">
+<div class="container">
+<div class="row">
+<div class="col-md-4">
+        <a class="btn btn-primary" href="{{path('club_add')}}">Add new club</a>
+
+</div>
+</div>
+<div class="row">
+    <table class="table table-striped" >
+    <thead>
     <tr>
     <th>Id</th>
     <th>Name</th>
     <th>Creation Date</th>
     </tr>
+    </thead>
+    <tbody>
     {% for c in clubs %}
     <tr>
     <td>{{c.id}}</td>
     <td>{{c.name}}</td>
     <td>{{c.creationDate|date}}</td>
+    <td><a href="{{path('club_update',{'id':c.id})}}">Update</a></td>
+    <td><a href="{{path('club_remove',{'id':c.id})}}">Delete</a></td>
     </tr>
     {% endfor %}
+    </tbody>
     </table>
+    </div>
 </div>
 {% endblock %}

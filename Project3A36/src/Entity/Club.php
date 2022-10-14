@@ -14,10 +14,10 @@ class Club
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
     public function getId(): ?int
@@ -30,7 +30,7 @@ class Club
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -42,7 +42,7 @@ class Club
         return $this->creationDate;
     }
 
-    public function setCreationDate(?\DateTimeInterface $creationDate): self
+    public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
 

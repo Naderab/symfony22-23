@@ -9,42 +9,70 @@
 </style>
 
 <div class="example-wrapper">
-   {{var}}
-   {% set var1='test' %}
-   {{var1}}
-   {% set tab = {
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'D:/xampp/htdocs/symfony22-23/Project3A34/src/Controller/TestTwigController.php'|file_link(0) }}">src/Controller/TestTwigController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'D:/xampp/htdocs/symfony22-23/Project3A34/templates/test_twig/index.html.twig'|file_link(0) }}">templates/test_twig/index.html.twig</a></code></li>
+    </ul>
+</div>
+
+{{var1}}
+
+{% set tab = {
+
     'fname': "Jane",
     'lname': "Doe"
+
   } %}
-  {{tab['fname']}}
-
-  {% for element in tab %}
-  {{element}}<br>
-  {% endfor %}
-
-  <table border="1">
-  <tr> <th>Id</th> <th>Name</th> <th>Email</th></tr>
-  {% for element in persons %}
-  {% if element.id == '1' %}
-  <tr>
-  <td>{{element.id}}</td>
-  <td>{{element.name| upper}}</td>
-  <td>{{element.email}}</td>
-  </tr>
-  {% endif %}
-  {% endfor %}
-  </table>
-
-{% if persons is empty %}
-Pas d'elements
-{% else %}
-{{persons|length}}
+{{tab['fname']}}
+  {% set v = 'test' %}
+  {{v}}
+<hr>
+<table>
+<tr>
+<th>Id</th>
+<th>Name</th>
+<th>Email</th>
+</tr>
+{% for person in p%}
+{% if person.id == '1' %}
+<tr>
+<td>{{person.id}}
+</td>
+<td>{{person.name|upper}}
+</td>
+<td>{{person.email}}
+</td>
+</tr>
 {% endif %}
-{% apply upper %}
-Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu'il est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum.
+{% endfor %}
+
+</table>
+{{dump(p)}}
+{% if p is empty %}
+<p> pas d'elements</p>
+{% endif %}
+
+{% if 5 not in [1, 2, 3] %}
+5 non présent
+{% endif %}
+
+{% if 3 in [1, 2, 3] %}
+3 présent
+{% endif %}
+
+{% if 5 in [1, 2, 3] %}
+3 présent
+{% else %}
+5 non présent
+{% endif %}
+{% apply lower %}
+PARAGRAPHE PARAGRAPHE PARAGRAPHE PARAGRAPHE PARAGRAPHE
 {% endapply %}
 
+{# {{ 3 in [1, 2, 3] ? '3présent' : '3 non présent' }} #}
+
 <a href="{{path('app_teacher_show',{'name':var1})}}">Go to teacher</a>
-<img src="{{asset('images/test.jpg')}}">
-</div>
 {% endblock %}

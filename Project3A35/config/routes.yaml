@@ -1,6 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-# index:
-#    path: /Student
-#    controller: App\Controller\StudentController::index2
+# bonjour:
+#     path: /bonjour
+#     controller: App\Controller\StudentController::index

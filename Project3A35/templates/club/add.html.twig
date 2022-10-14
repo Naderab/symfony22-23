@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+{{form_start(formClub)}}
+<div class="mb-3">
+{{form_label(formClub.name,'Name : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(formClub.name,{'attr':{'class':'form-control'}})}}
+</div>
+<div class="mb-3">
+{{form_label(formClub.creationDate,'Creation Date : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(formClub.creationDate,{'attr':{'class':'form-control'}})}}
+</div>
+<div class="mb-3">
+{{form_widget(formClub.save,{'attr':{'class':'btn btn-primary'}})}}
+</div>
+{{form_end(formClub)}}
+</div>
+</div>
+</div>
+{% endblock %}

@@ -4,45 +4,75 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ClubRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Club;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Form\ClubType;
 class ClubController extends AbstractController
 {
-    #[Route('/club', name: 'app_club')]
-    public function index(): Response
+    #[Route('/club/fetch', name: 'club_fetch')]
+    public function index(ManagerRegistry $doctrine): Response
     {
+        $listClubs= $doctrine->getRepository(Club::class)->findAll();
+        //$club= $doctrine->getRepository(Club::class)->find('1');
         return $this->render('club/index.html.twig', [
-            'controller_name' => 'ClubController',
+            'clubs' => $listClubs,
+            
         ]);
     }
 
-    #[Route('/getclubs', name: 'app_club_get')]
-    public function getClub(ClubRepository $repository): Response
-    {
-        $clubs = $repository->findAll();
-        return $this->render('club/index.html.twig', [
-            'clubs' => $clubs,
-        ]);
-    }
-
-    // #[Route('/club/details/{id}', name: 'app_club_details')]
-    // public function clubDetails(ClubRepository $repository,$id): Response
+    // #[Route('/fetchClubs', name: 'club_fetch')]
+    // public function index(ClubRepository $clubRepository): Response
     // {
-    //     $club = $repository->find($id);
-    //     return $this->render('club/details.html.twig', [
-    //         'club' => $club,
+    //     $listClubs = $clubRepository->findAll();
+    //     $club = $clubRepository->find('2');
+    //     return $this->render('club/index.html.twig', [
+    //         'clubs' => $listClubs,
+    //         'club' => $club
     //     ]);
     // }
 
-    #[Route('/club/details/{id}', name: 'app_club_details')]
-    public function clubDetails(ManagerRegistry $em,$id): Response
+    #[Route('/club/remove/{id}', name: 'club_remove')]
+    public function removeClub(ManagerRegistry $doctrine,$id): Response
     {
-        $repository = $em->getRepository(Club::class);
-        $club = $repository->find($id);
-        return $this->render('club/details.html.twig', [
-            'club' => $club,
-        ]);
+        $em= $doctrine->getManager();
+        $club= $doctrine->getRepository(Club::class)->find($id);
+        $em->remove($club);
+        $em->flush();
+        return $this->redirectToRoute('club_fetch');
     }
+
+    #[Route('/club/add', name: 'club_add')]
+    public function addClub(ManagerRegistry $doctrine,Request $req): Response {
+        $em = $doctrine->getManager();
+        $club = new Club();
+        $form = $this->createForm(ClubType::class,$club);
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $em->persist($club);
+            $em->flush();
+            return $this->redirectToRoute('club_fetch');
+        }
+        //$club->setName('club test persist');
+        //$club->setCreationDate(new \DateTime());
+        return $this->renderForm('club/add.html.twig',['formClub'=>$form]);
+    }
+    #[Route('/club/update/{id}', name: 'club_update')]
+    public function updateClub(ManagerRegistry $doctrine,$id,Request $req): Response {
+        $em = $doctrine->getManager();
+        $club = $doctrine->getRepository(Club::class)->find($id);
+        $form = $this->createForm(ClubType::class,$club);
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $em->persist($club);
+            $em->flush();
+            return $this->redirectToRoute('club_fetch');
+        }
+        return $this->renderForm('club/add.html.twig',['formClub'=>$form]);
+
+    }
+
+   
 }

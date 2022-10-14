@@ -1,0 +1,40 @@
+le nombre de formation est {{ listeTableau|length }}
+
+<table border="2">
+    {% set maxValue = 0 %}
+
+    {% for club in listeTableau %}
+        {% set maxValue = max(club.nb_participants, maxValue) %}
+    {% endfor %}
+    {%for club in listeTableau%}  <tr>
+      {# {%  if 'theorique' in club.Description %}#}
+       {# {%  if club.nb_participants == maxValue %}#}
+        <td>{{club.ref}}</td>
+        <td>{{club.Titre|upper()}}</td>
+        <td>{{club.Description}}</td>
+        <td>{{club.date_debut}}</td>
+        <td>{{club.nb_participants}}</td>
+        {#{% endif %}#}
+        {#{% endif %}#}
+
+
+        {#<td>{% if club.nb_participants==0%}
+            <form action="{{path('detail',{'id':club.ref }) }}">
+                <button>Participer</button></form>
+
+
+             <!--   ou bien aussi autre méthode-->
+                <a href="{{path('detail',{'id':club.ref }) }}">participer</a>
+            {% endif %}
+        </td>
+#}
+
+    </tr>    {% endfor %}
+</table>
+
+{% set nbTot = 0 %}
+
+{% for club in listeTableau %}
+    {% set nbTot = nbTot + club.nb_participants %}
+{% endfor %}
+<p> Le nombre total des particpants est </tot>{{ nbTot }} </p>
