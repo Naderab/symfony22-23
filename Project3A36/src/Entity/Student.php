@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
 {
     #[ORM\Id]
-    #[ORM\Column]
+    #[ORM\Column(name:'id')]
     private ?string $nsc = null;
 
     #[ORM\Column(length: 255)]
@@ -17,6 +19,12 @@ class Student
 
     #[ORM\Column(length: 255)]
     private ?string $userName = null;
+
+    #[ORM\ManyToOne(inversedBy: 'students')]
+    private ?Classroom $classroom = null;
+
+
+    
 
     public function getNsc(): ?string
     {
@@ -52,4 +60,17 @@ class Student
 
         return $this;
     }
+
+    public function getClassroom(): ?Classroom
+    {
+        return $this->classroom;
+    }
+
+    public function setClassroom(?Classroom $classroom): self
+    {
+        $this->classroom = $classroom;
+
+        return $this;
+    }
+
 }

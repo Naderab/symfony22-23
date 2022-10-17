@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des classrooms!{% endblock %}
+
+{% block body %}
+ <div class="container">
+ <div class="row">
+<div class="col-md-4">
+        <a class="btn btn-primary" href="{{path('add_classroom')}}">Ajouter un nouveau classroom</a>
+
+</div>
+</div>
+<div class="row">
+<div class="row">
+<div class="col-md-4">
+      
+
+</div>
+</div>
+<div class="row">
+    <table class="table table-striped" >
+    <thead>
+    <tr>
+    <th>Nom</th>
+   
+    </tr>
+    </thead>
+    <tbody>
+    {% for c in classrooms %}
+    <tr>
+    <td>{{c.name}}</td>
+        <td> <a href="{{path('delete_classroom',{'id':c.id})}}"> Delete </a> </td>
+        <td> <a href="{{path('update_classroom',{'id':c.id})}}"> update </a> </td>
+    
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}
