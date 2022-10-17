@@ -26,7 +26,6 @@ class StudentController extends AbstractController{
         ]);
     }
 
-
     #[Route('student/remove/{id}', name: 'student_remove')]
     public function remove(ManagerRegistry $doctrine,$id): Response
     {

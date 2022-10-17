@@ -18,6 +18,10 @@
 {{form_widget(form.email,{'attr':{'class':'form-control'}})}}
 </div>
 <div class="mb-3">
+{{form_label(form.classroom,'Classroom : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.classroom,{'attr':{'class':'form-select'}})}}
+</div>
+<div class="mb-3">
 {{form_widget(form.save,{'attr':{'class':'btn btn-primary'}})}}
 </div>
 {{form_end(form)}}
