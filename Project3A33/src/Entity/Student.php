@@ -18,6 +18,9 @@ class Student
     #[ORM\Column(length: 255)]
     private ?string $userName = null;
 
+    #[ORM\ManyToOne(inversedBy: 'students')]
+    private ?Classroom $idClassroom = null;
+
     public function getNsc(): ?string
     {
         return $this->nsc;
@@ -49,6 +52,18 @@ class Student
     public function setUserName(string $userName): self
     {
         $this->userName = $userName;
+
+        return $this;
+    }
+
+    public function getIdClassroom(): ?Classroom
+    {
+        return $this->idClassroom;
+    }
+
+    public function setIdClassroom(?Classroom $idClassroom): self
+    {
+        $this->idClassroom = $idClassroom;
 
         return $this;
     }

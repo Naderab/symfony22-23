@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+<div class="row">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+{{form_start(form)}}
+<div class="mb-3">
+{{form_label(form.name,'Name : ',{'attr':{'class':'form-label'}})}}
+{{form_widget(form.name,{'attr':{'class':'form-control'}})}}
+</div>
+
+<div class="mb-3">
+{{form_widget(form.save,{'attr':{'class':'btn btn-primary'}})}}
+</div>
+{{form_end(form)}}
+</div>
+</div>
+</div>
+{% endblock %}

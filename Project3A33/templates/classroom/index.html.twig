@@ -11,7 +11,7 @@
 <div class="container">
 <div class="row">
 <div class="col-md-4">
-        <a class="btn btn-primary" href="{{path('student_add')}}">Add new student</a>
+        <a class="btn btn-primary" href="{{path('add_classroom')}}">Add new classroom</a>
 
 </div>
 </div>
@@ -19,22 +19,25 @@
     <table class="table table-striped" >
     <thead>
     <tr>
-    <th>NSC</th>
-    <th>User Name</th>
-    <th>Email</th>
-    <th>Classroom</th>
-    
+    <th>ID</th>
+    <th>Name</th>
+    <th>Students</th>
     </tr>
     </thead>
     <tbody>
-    {% for s in students %}
+    {% for c in classrooms %}
     <tr>
-    <td>{{s.nsc}}</td>
-    <td>{{s.userName}}</td>
-    <td>{{s.email}}</td>
-    <td>{{s.idClassroom}}</td>
-    <td><a href="{{path('student_update',{'id':s.nsc})}}">Update</a></td>
-    <td><a href="{{path('student_remove',{'id':s.nsc})}}">Delete</a></td>
+    <td>{{c.id}}</td>
+    <td>{{c.name}}</td>
+    <td>
+    <ul>
+    {% for s in c.students %}
+    <li> {{s.userName}}</li>
+    {% endfor %}
+    </ul>
+    </td>
+    <td><a href="{{path('update_classroom',{'id':c.id})}}">Update</a></td>
+    <td><a href="{{path('remove_classroom',{'id':c.id})}}">Delete</a></td> 
     </tr>
     {% endfor %}
     </tbody>
