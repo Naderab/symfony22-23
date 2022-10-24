@@ -16,12 +16,21 @@
 </div>
 </div>
 <div class="row">
+<div class="col-md-4">
+{{form(form)}}
+</div>
+</div>
+<div class="row">
     <table class="table table-striped" >
     <thead>
     <tr>
     <th>NSC</th>
     <th>User Name</th>
     <th>Email</th>
+        <th>Classroom</th>
+
+        <th colspan="2">Actions</th>
+
     </tr>
     </thead>
     <tbody>
@@ -30,6 +39,68 @@
     <td>{{s.nsc}}</td>
     <td>{{s.userName}}</td>
     <td>{{s.email}}</td>
+    <td>{{s.classroom}}</td>
+
+    <td><a href="{{path('student_update',{'id':s.nsc})}}">Update</a></td>
+    <td><a href="{{path('student_remove',{'id':s.nsc})}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+<h1>List students ordred by email</h1>
+     <table class="table table-striped" >
+    <thead>
+    <tr>
+    <th>NSC</th>
+    <th>User Name</th>
+    <th>Email</th>
+        <th>Classroom</th>
+
+        <th colspan="2">Actions</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in studentsOE %}
+    <tr>
+    <td>{{s.nsc}}</td>
+    <td>{{s.userName}}</td>
+    <td>{{s.email}}</td>
+    <td>{{s.classroom}}</td>
+
+    <td><a href="{{path('student_update',{'id':s.nsc})}}">Update</a></td>
+    <td><a href="{{path('student_remove',{'id':s.nsc})}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+    <h1>List students Not Admitted</h1>
+     <table class="table table-striped" >
+    <thead>
+    <tr>
+    <th>NSC</th>
+    <th>User Name</th>
+    <th>Email</th>
+        <th>Classroom</th>
+        <th>Average</th>
+
+
+        <th colspan="2">Actions</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in studentsNA %}
+    <tr>
+    <td>{{s.nsc}}</td>
+    <td>{{s.userName}}</td>
+    <td>{{s.email}}</td>
+    <td>{{s.classroom}}</td>
+    <td>{{s.average}}</td>
+
+
     <td><a href="{{path('student_update',{'id':s.nsc})}}">Update</a></td>
     <td><a href="{{path('student_remove',{'id':s.nsc})}}">Delete</a></td>
     </tr>

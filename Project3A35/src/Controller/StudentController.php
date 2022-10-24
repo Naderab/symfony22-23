@@ -6,8 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Student;
 use App\Form\StudentType;
+use App\Form\SearchNscType;
+
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\StudentRepository;
+
 
 class StudentController extends AbstractController{
 
@@ -16,12 +19,30 @@ class StudentController extends AbstractController{
         return new Response("Bonjour mes étudiants");
     }
     #[Route('student/fetch', name: 'student_fetch')]
-    public function fetch(ManagerRegistry $doctrine): Response
+    public function fetch(ManagerRegistry $doctrine,Request $req) : Response
     {
         $students= $doctrine->getRepository(Student::class)->findAll();
+        $studentsByEmail= $doctrine->getRepository(Student::class)->findStudentsOrdredByEmail();
+        $studentsNotAdmitted= $doctrine->getRepository(Student::class)->findStudentsNotAdmitted();
+        
+        $form = $this->createForm(SearchNscType::class);
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $nsc = $form['nsc']->getData();
+            $studentsByNsc = $doctrine->getRepository(Student::class)->searchByNsc($nsc);
+            return $this->renderForm('student/index.html.twig', [
+                'students' => $studentsByNsc,
+                'studentsbyEmail'=>$studentsByEmail,
+                'studentsNA'=>$studentsNotAdmitted,
+                'form'=>$form
+            ]);
+        }
         //$club= $doctrine->getRepository(Club::class)->find('1');
-        return $this->render('student/index.html.twig', [
+        return $this->renderForm('student/index.html.twig', [
             'students' => $students,
+            'studentsbyEmail'=>$studentsByEmail,
+            'studentsNA'=>$studentsNotAdmitted,
+            'form'=>$form
             
         ]);
     }
@@ -33,6 +54,7 @@ class StudentController extends AbstractController{
         $student= $doctrine->getRepository(Student::class)->find($id);
         $em->remove($student);
         $em->flush();
+       
         return $this->redirectToRoute('student_fetch');
     }
 
@@ -64,6 +86,15 @@ class StudentController extends AbstractController{
         }
         return $this->renderForm('student/add.html.twig',['form'=>$form]);
 
+    }
+    #[Route('student/byclassroom/{id}', name: 'student_byclassroom')]
+    public function getByClassroom($id,StudentRepository $repo) : Response {
+
+        $students = $repo->getStudentsByClassroom($id);
+        return $this->renderForm('student/studentsbyclassroom.html.twig', [
+            'students' => $students,
+            
+        ]);
     }
 }
 ?>

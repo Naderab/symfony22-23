@@ -39,6 +39,50 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
+    public function getStudentsOrdredByEmail() : array {
+        return $this->createQueryBuilder('s')
+                ->orderBy('s.email','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function searchBy($filtre) : array {
+        return $this->createQueryBuilder('s')
+                ->where('s.nsc LIKE ?1')
+                ->orWhere('s.email LIKE ?2')
+                ->orWhere('s.userName LIKE ?3')
+                ->setParameter('1',$filtre)
+                ->setParameter('2',$filtre)
+                ->setParameter('3',$filtre)
+
+                ->getQuery()
+                ->getResult();
+
+    }
+
+    public function getStudentsByClass($idClass) :array {
+        return $this->createQueryBuilder('s')
+                ->join('s.classroom','c')
+                ->where('c.id = :idc')
+                ->setParameter('idc',$idClass)
+                ->getQuery()
+                ->getResult();
+    }
+
+    function getStudentsNotAdmitted() : array {
+        $em = $this->getEntityManager();
+        $query =$em->createQuery('SELECT s FROM APP\Entity\Student s WHERE s.average < 8');
+        return $query->getResult();
+    
+    }
+
+    function searchStudent($nsc) :array {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM APP\Entity\Student s WHERE s.nsc LIKE :nsc');
+        $query->setParameter('nsc',$nsc);
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */

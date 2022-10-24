@@ -39,6 +39,13 @@ class ClubRepository extends ServiceEntityRepository
         }
     }
 
+    public function findClubOrdredByName():array {
+        return $this->createQueryBuilder('c')
+                ->orderBy('c.name','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+
 //    /**
 //     * @return Club[] Returns an array of Club objects
 //     */

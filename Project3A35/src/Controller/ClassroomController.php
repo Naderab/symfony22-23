@@ -10,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ClassroomRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Classroom;
+use App\Entity\Student;
+
 use App\Form\ClassroomType;
 
 class ClassroomController extends AbstractController
@@ -30,6 +32,8 @@ class ClassroomController extends AbstractController
         $form = $this->createForm(ClassroomType::class,$classroom);
         $form->handleRequest($req);
         if($form->isSubmitted()){
+            $student1= $doctrine->getRepository(Student::class)->find('120');           
+            $classroom->addStudent($student1);
             $em->persist($classroom);
             $em->flush();
             return $this->redirectToRoute('app_classroom');

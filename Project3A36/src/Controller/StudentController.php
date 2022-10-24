@@ -8,6 +8,8 @@ use App\Entity\Student;
 use App\Entity\Club;
 
 use App\Form\StudentType;
+use App\Form\SearchByAvgType;
+
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\StudentRepository;
 
@@ -18,16 +20,37 @@ class StudentController extends AbstractController{
         return new Response("Bonjour mes étudiants");
     }
     #[Route('student/fetch', name: 'student_fetch')]
-    public function fetch(ManagerRegistry $doctrine): Response
+    public function fetch(ManagerRegistry $doctrine,Request $req): Response
     {
+        $form = $this->createForm(SearchByAvgType::class);
         $students= $doctrine->getRepository(Student::class)->findAll();
+        $form->handleRequest($req);
+        if($form->isSubmitted()){
+            $min = $form['min']->getData();
+            $max = $form['max']->getData();
+            $studentsByAVG = $doctrine->getRepository(Student::class)->searchByAVG($min,$max);
+            return $this->renderForm('student/index.html.twig', [
+                'students' => $studentsByAVG,
+                'form'=>$form
+            ]);
+        }
+        //$club= $doctrine->getRepository(Club::class)->find('1');
+        return $this->renderForm('student/index.html.twig', [
+            'students' => $students,
+            'form'=>$form
+            
+        ]);
+    }
+    #[Route('student/byClassroom/{id}', name: 'student_byClassroom')]
+    public function fetchByClassroom(ManagerRegistry $doctrine,$id): Response
+    {
+        $students= $doctrine->getRepository(Student::class)->getStudentsByClassroom($id);
         //$club= $doctrine->getRepository(Club::class)->find('1');
         return $this->render('student/index.html.twig', [
             'students' => $students,
             
         ]);
     }
-
 
     #[Route('student/remove/{id}', name: 'student_remove')]
     public function remove(ManagerRegistry $doctrine,$id): Response

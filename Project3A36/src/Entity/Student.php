@@ -21,10 +21,10 @@ class Student
     private ?string $userName = null;
 
     #[ORM\ManyToOne(inversedBy: 'students')]
-    private ?Classroom $classroom = null;
+    private ?Classroom $idClassroom = null;
 
-
-    
+    #[ORM\Column(nullable: true)]
+    private ?int $average = null;
 
     public function getNsc(): ?string
     {
@@ -61,16 +61,30 @@ class Student
         return $this;
     }
 
-    public function getClassroom(): ?Classroom
+    public function getIdClassroom(): ?Classroom
     {
-        return $this->classroom;
+        return $this->idClassroom;
     }
 
-    public function setClassroom(?Classroom $classroom): self
+    public function setIdClassroom(?Classroom $idClassroom): self
     {
-        $this->classroom = $classroom;
+        $this->idClassroom = $idClassroom;
 
         return $this;
     }
+
+    public function getAverage(): ?int
+    {
+        return $this->average;
+    }
+
+    public function setAverage(?int $average): self
+    {
+        $this->average = $average;
+
+        return $this;
+    }
+
+  
 
 }

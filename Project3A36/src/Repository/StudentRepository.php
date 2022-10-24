@@ -39,6 +39,40 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
+    public function getStudentsByClassroom($id) : array {
+        return $this->createQueryBuilder('s')
+                ->join('s.idClassroom','c')
+                ->addSelect('c')
+                ->where('c.id=:id')
+                ->setParameter('id',$id)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getStudentsOrdredByEmail() :array {
+        return $this->createQueryBuilder('s')
+                ->orderBy('s.email','DESC')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getStudentByNsc($nsc) : array {
+        return $this->createQueryBuilder('s')
+                ->where('s.nsc LIKE :nsc')
+                ->setParameter('nsc',$nsc)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function searchByAVG($min,$max) :array {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s WHERE s.average BETWEEN :min AND :max')
+                    ->setParameter('min',$min)
+                    ->setParameter('max',$max);
+
+         return $query->getResult();           
+    }
+
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */

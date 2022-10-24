@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}Hello ClassroomController!{% endblock %}
 
 {% block body %}
 <style>
@@ -21,8 +21,6 @@
     <tr>
     <th>ID</th>
     <th>Name</th>
-    <th>Students</th>
-
     </tr>
     </thead>
     <tbody>
@@ -30,18 +28,8 @@
     <tr>
     <td>{{c.id}}</td>
     <td>{{c.name}}</td>
-    <td>
-    {% for s in c.students %}
-{{s.userName}}
-{% endfor %}
-    </td>
-
-    <td><a href="{{path('update',{'id':c.id})}}">update</a></td>
-    <td><a href="{{path('remove_classroom',{'id':c.id})}}">Delete</a></td> 
-       <td><a href="{{path('student_byclassroom',{'id':c.id})}}">details</a></td> 
-
-   
-   
+     <td><a href="{{path('update_classroom',{'id':c.id})}}">Update</a></td>
+    <td><a href="{{path('remove_classroom',{'id':c.id})}}">Delete</a></td>
     </tr>
     {% endfor %}
     </tbody>

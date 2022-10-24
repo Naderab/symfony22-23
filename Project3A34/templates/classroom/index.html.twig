@@ -22,6 +22,9 @@
     <thead>
     <tr>
     <th>Nom</th>
+     <th>Students</th>
+    <th colspan="2">Actions</th>
+    
    
     </tr>
     </thead>
@@ -29,9 +32,17 @@
     {% for c in classrooms %}
     <tr>
     <td>{{c.name}}</td>
+    <td>
+    <ul>
+    {% for s in c.students %}
+            <li>{{s.userName}}</li>
+    {% endfor %}
+    </ul>
+   </td>
         <td> <a href="{{path('delete_classroom',{'id':c.id})}}"> Delete </a> </td>
         <td> <a href="{{path('update_classroom',{'id':c.id})}}"> update </a> </td>
-    
+            <td> <a href="{{path('student_byclass',{'id':c.id})}}"> details </a> </td>
+
     </tr>
     
     {% endfor %}

@@ -15,7 +15,8 @@ class ClubController extends AbstractController
     #[Route('/club/fetch', name: 'club_fetch')]
     public function index(ManagerRegistry $doctrine): Response
     {
-        $listClubs= $doctrine->getRepository(Club::class)->findAll();
+        // $listClubs= $doctrine->getRepository(Club::class)->findAll();
+        $listClubs= $doctrine->getRepository(Club::class)->findClubOrdredByName();
         //$club= $doctrine->getRepository(Club::class)->find('1');
         return $this->render('club/index.html.twig', [
             'clubs' => $listClubs,

@@ -17,9 +17,11 @@ class StudentType extends AbstractType
             ->add('nsc')
             ->add('email')
             ->add('userName')
-            // ->add('classroom', EntityType::class,['class'=>Classroom::class,'choice_label'=>'name'])
-            ->add('classroom')
-
+            // ->add('idClassroom',EntityType::class,[
+            //     'class'=>Classroom::class,
+            //     'choice_label'=>'name'
+            // ])
+            ->add('idClassroom')
             ->add('save',SubmitType::class)
         ;
     }
