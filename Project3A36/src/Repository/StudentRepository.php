@@ -73,6 +73,59 @@ class StudentRepository extends ServiceEntityRepository
          return $query->getResult();           
     }
 
+    public function getStudentOrderByEmail(){
+        return $this->createQueryBuilder('s')
+                ->orderBy('s.email','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getStudentOrderByEmailDQL() {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s ORDER BY s.email ASC');
+        return $query->getResult();
+    }
+
+    public function studentSearchByUserName($userName) {
+        return $this->createQueryBuilder('s')
+                ->where('s.userName LIKE :userName')
+                ->setParameter('userName',$userName)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function studentSearchByUserNameDQL($userName){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s WHERE s.userName LIKE :username')
+                    ->setParameter('username',$userName);
+        return $query->getResult();
+    }
+
+    public function fetchStudentByClass($id) {
+        return $this->createQueryBuilder('s')
+                ->join('s.idClassroom','c')
+                ->where('c.id = :id')
+                ->setParameter('id',$id)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function fetchStudentByClassDQL($id){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s JOIN s.idClassroom c WHERE c.id = :id')
+                ->setParameter('id',$id);
+        return $query->getResult();
+    }
+
+    // public function getProductByCategory($idCategory) {
+    //     return $this->createQueryBuilder('p')
+    //             ->join('p.idCategory','c')
+    //             ->where('c.id = :id')
+    //             ->setParameter('id',$idCategory)
+    //             ->getQuery()
+    //             ->getResult();
+    // }
+
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */

@@ -9,6 +9,7 @@ use App\Entity\Club;
 
 use App\Form\StudentType;
 use App\Form\SearchByAvgType;
+use App\Form\SearchUserType;
 
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\StudentRepository;
@@ -92,6 +93,44 @@ class StudentController extends AbstractController{
         }
         return $this->renderForm('student/add.html.twig',['form'=>$form]);
 
+    }
+
+    #[Route('student/order', name: 'student_order')]
+    public function fetchStudentOrderByEmail(StudentRepository $repo) :Response {
+        $students = $repo->getStudentOrderByEmail();
+        return $this->render('student/listorder.html.twig',
+        [
+            'students'=>$students
+        ]);
+    }
+
+    #[Route('student/search', name: 'student_search')]
+    public function searchByUserName(StudentRepository $repo,Request $req) : Response {
+        $form = $this->createForm(SearchUserType::class);
+        $students = $repo->findAll();
+        $form->handleRequest($req);
+        if($form->isSubmitted())
+        {
+            $studentsbyUserName = $repo->studentSearchByUserName($form['username']->getData());
+            return $this->renderForm('student/search.html.twig',[
+                'students'=>$studentsbyUserName,
+                'form'=>$form
+            ]);
+        }
+
+        return $this->renderForm('student/search.html.twig',[
+            'students'=>$students,
+            'form'=>$form
+        ]);
+    }
+
+    #[Route('student/getByClass/{id}', name: 'student_byclass')]
+    public function getStudentsByClassRoom(StudentRepository $repo,$id) : Response {
+        $students = $repo->fetchStudentByClass($id);
+
+        return $this->render('student/byClass.html.twig',[
+            'students'=>$students
+        ]);
     }
 }
 ?>

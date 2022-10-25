@@ -23,7 +23,6 @@ class StudentType extends AbstractType
             // ])
             ->add('idClassroom')
             ->add('save',SubmitType::class)
-
         ;
     }
 

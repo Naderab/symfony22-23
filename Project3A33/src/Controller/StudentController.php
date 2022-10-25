@@ -66,5 +66,22 @@ class StudentController extends AbstractController{
         return $this->renderForm('student/add.html.twig',['form'=>$form]);
 
     }
+
+    #[Route('student/ordredbyemail', name: 'student_ordredbyemail')]
+    public function getStudentOrdredByEmail (StudentRepository $repo) : Response {
+        $students = $repo->getStudentOrdredByEmail();
+
+        return $this->render('student/listbyemail.html.twig',[
+            'students' => $students
+        ]);
+    }
+
+    #[Route('student/byClass/{id}', name: 'student_byclass')]
+    public function getStudentByClass(StudentRepository $repo,$id) : Response {
+        $students = $repo->getStudentByClass($id);
+        return $this->render('student/byclass.html.twig',[
+            'students' => $students
+        ]);
+    }
 }
 ?>

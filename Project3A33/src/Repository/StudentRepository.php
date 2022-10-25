@@ -39,6 +39,56 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
+    public function getStudentOrdredByEmail() : array {
+        return $this->createQueryBuilder('s')
+                ->orderBy('s.email','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getStudentsOrdredByEmailDQL() : array {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s ORDER BY s.email ASC');
+        return $query->getResult();
+    }
+    public function searchByNsc($nsc) : array {
+        return $this->createQueryBuilder('s')
+                ->where('s.nsc LIKE :nsc')
+                ->setParameter('nsc',$nsc)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getStudentByNscDQl ($nsc) : array {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s WHERE s.nsc LIKE :nsc')
+                    ->setParameter('nsc',$nsc);
+        return $query->getResult();
+    }
+
+    public function getStudentByClass($id) : array {
+        return $this->createQueryBuilder('s')
+                ->join('s.idClassroom','c')
+                ->where('c.id = :id')
+                ->setParameter('id',$id)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function getStudentByClassDQL ($id) :array {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s JOIN s.idClassroom c WHERE c.id = :id')
+                ->setParameter('id',$id);
+        return $query->getResult();
+    }
+
+    public function getStudentsNotAdmitted() : array {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT s FROM App\Entity\Student s WHERE s.average < 8');
+        return $query->getResult();
+    }
+
+
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */
