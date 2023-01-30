@@ -73,6 +73,11 @@ class Classroom
         return $this;
     }
 
+    public function concat()
+    {
+       return $this->name;
+    }
+
     public function __toString(): string {
         return $this->name;
     }
